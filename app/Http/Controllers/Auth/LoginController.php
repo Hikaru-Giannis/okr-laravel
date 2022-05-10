@@ -32,7 +32,8 @@ final class LoginController extends Controller
             $request->session()->regenerate();
 
             return new JsonResponse([
-                'message' => 'Authenticated.',
+                'status' => 200,
+                'message' => 'Authenticated.'
             ]);
         }
 

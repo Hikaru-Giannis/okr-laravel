@@ -16,5 +16,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/me', MeController::class);
+    Route::get('/user', MeController::class);
 });

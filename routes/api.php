@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Api\MeController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,3 +19,5 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user', MeController::class);
 });
+
+Route::post('/user', [UserController::class, 'create']);

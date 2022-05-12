@@ -35,7 +35,8 @@ final class LogoutController extends Controller
         $request->session()->regenerateToken();
 
         return new JsonResponse([
-            'message' => 'Unauthenticated.',
+            'status' => 200,
+            'message' => 'Unauthenticated.'
         ]);
     }
 }

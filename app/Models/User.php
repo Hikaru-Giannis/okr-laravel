@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Entities\User\UserEntity;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -41,4 +42,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function toEntity(): UserEntity
+    {
+        return new UserEntity(
+            id: $this->id,
+            name: $this->name,
+            email: $this->email,
+        );
+    }
 }

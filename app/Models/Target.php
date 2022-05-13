@@ -6,8 +6,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Entities\Target\TargetEntity;
-use App\Entities\Target\TargetEnties;
-use App\Entities\Target\TargetEntities;
 
 class Target extends Model
 {
@@ -23,10 +21,5 @@ class Target extends Model
             total_score: $this->total_score,
             expiration_date: $this->expiration_date
         );
-    }
-
-    public function toEntities(): TargetEntities
-    {
-        return new TargetEntities();
     }
 }

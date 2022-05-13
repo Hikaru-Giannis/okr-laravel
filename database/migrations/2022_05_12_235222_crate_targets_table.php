@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('contents')->comment('目標内容');
             $table->smallInteger('status')->default(10)->comment('ステータス');
             $table->float('total_score')->default(0)->comment('合計スコア');
-            $table->dateTime('expiration_date')->comment('期限日');
+            $table->dateTime('expiration_date')->nullable()->default(null)->comment('期限日');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

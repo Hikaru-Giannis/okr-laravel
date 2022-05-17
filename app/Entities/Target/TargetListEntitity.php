@@ -3,22 +3,15 @@ declare(strict_types=1);
 
 namespace App\Entities\Target;
 
-use App\Entities\Target\TargetEntity;
-
 class TargetListEntitity
 {
-    private $targetList;
-    public function __construct()
+    private array $targetList;
+    public function __construct(array $targetList)
     {
-        $this->targetList = new \ArrayObject();
+        $this->targetList = $targetList;
     }
 
-    public function add(TargetEntity $target)
-    {
-        $this->targetList[] = $target;
-    }
-
-    public function targetList(): \ArrayObject
+    public function getValue(): array
     {
         return $this->targetList;
     }

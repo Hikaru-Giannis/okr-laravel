@@ -14,6 +14,6 @@ class TargetController extends Controller
     {
         $user = $request->user;
         $targetList = $action($user->id);
-        return new IndexResource($targetList);
+        return new IndexResource($targetList->getValue());
     }
 }

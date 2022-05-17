@@ -14,11 +14,10 @@ class TargetRepository
             ->where('user_id', $user_id)
             ->get();
 
-        $targetList = new TargetListEntitity;
-        foreach ($targets as $target) {
-            $targetList->add($target->toEntity());
-        }
+        $targetListEntity = $targets->map(function ($target) {
+            return $target->toEntity();
+        });
 
-        return $targetList->targetList();
+        return new TargetListEntitity($targetListEntity->toArray());
     }
 }

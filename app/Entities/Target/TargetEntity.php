@@ -5,6 +5,7 @@ namespace App\Entities\Target;
 
 class TargetEntity
 {
+    private array $indicators = [];
     public function __construct(
         private int $id,
         private int $user_id,
@@ -46,4 +47,13 @@ class TargetEntity
         return $this->expiration_date;
     }
 
+    public function setIndicators(array $targetListEntitity): void
+    {
+        $this->indicators = $targetListEntitity;
+    }
+
+    public function indicators(): array
+    {
+        return $this->indicators;
+    }
 }

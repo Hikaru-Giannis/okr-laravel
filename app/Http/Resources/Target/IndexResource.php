@@ -13,17 +13,26 @@ class IndexResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request):array
     {
         $targets = [];
         foreach ($this->resource as $target) {
+            $indicators = [];
+            foreach ($target->indicators() as $indicator) {
+                $indicators[] = [
+                    'id' => $indicator->id(),
+                    'contents' => $indicator->contents(),
+                    'score' => $indicator->score(),
+                ];
+            }
             $targets[] = [
                 'id' => $target->id(),
                 'user_id' => $target->user_id(),
                 'contents' => $target->contents(),
                 'status' => $target->status(),
                 'total_score' => $target->total_score(),
-                'expiration_date' => $target->expiration_date()
+                'expiration_date' => $target->expiration_date(),
+                'indicators' => $indicators,
             ];
         };
         return [

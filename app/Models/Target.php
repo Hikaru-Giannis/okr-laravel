@@ -22,4 +22,9 @@ class Target extends Model
             expiration_date: $this->expiration_date
         );
     }
+
+    public function indicators()
+    {
+        return $this->hasMany(Indicator::class);
+    }
 }

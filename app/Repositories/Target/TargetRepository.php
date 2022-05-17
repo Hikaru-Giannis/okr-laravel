@@ -12,10 +12,17 @@ class TargetRepository
     {
         $targets = Target::query()
             ->where('user_id', $user_id)
+            ->with('indicators')
             ->get();
 
         $targetListEntity = $targets->map(function ($target) {
-            return $target->toEntity();
+            $indicators = $target->indicators;
+            $indicatorListEntity = $indicators->map(function ($indicator) {
+                return $indicator->toEntity();
+            });
+            $targetEntity = $target->toEntity();
+            $targetEntity->setIndicators($indicatorListEntity->toArray());
+            return $targetEntity;
         });
 
         return new TargetListEntitity($targetListEntity->toArray());

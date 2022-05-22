@@ -27,4 +27,23 @@ class TargetRepository
 
         return new TargetListEntitity($targetListEntity->toArray());
     }
+
+    /**
+     * 目標登録
+     *
+     * @param integer $userId
+     * @param string $contents
+     * @param string $expirationDate
+     * @return int
+     */
+    public function save(int $userId, string $contents, string $expirationDate): int
+    {
+        $expirationDateTime = new \Datetime($expirationDate);
+        $target = new Target;
+        $target->user_id = $userId;
+        $target->contents = $contents;
+        $target->expiration_date = $expirationDateTime->format('Y-m-d 23:59:59');
+        $target->save();
+        return $target->id;
+    }
 }

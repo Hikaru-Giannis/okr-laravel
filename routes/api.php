@@ -19,7 +19,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user', MeController::class);
-    Route::get('/target/index', [TargetController::class, 'index']);
+    Route::post('/target', [TargetController::class, 'register'])->name('register');
+    Route::group(['prefix' => 'target', 'as' => 'target.'], function () {
+        Route::get('index', [TargetController::class, 'index'])->name('index');
+    });
 });
 
 Route::post('/user', [UserController::class, 'create']);

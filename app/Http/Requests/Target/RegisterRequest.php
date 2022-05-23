@@ -34,7 +34,7 @@ class RegisterRequest extends FormRequest
         return [
             'target.contents' => 'required',
             'target.expiration_date' => 'required',
-            // 'indicators.*.contents' => 'required'
+            'indicators.*' => 'required'
         ];
     }
 }

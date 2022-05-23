@@ -5,7 +5,7 @@ namespace App\UseCases\Target;
 
 use App\Repositories\Target\TargetRepository;
 
-class StoreAction
+class TargetStoreAction
 {
     public function __construct(private TargetRepository $targetRepository)
     {

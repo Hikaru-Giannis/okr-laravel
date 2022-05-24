@@ -11,9 +11,9 @@ class IndexAction
     {
     }
 
-    public function __invoke(int $user_id)
+    public function __invoke(int $userId)
     {
-        $targetList = $this->targetRepository->retrieveByUserId($user_id);
+        $targetList = $this->targetRepository->retrieveByUserId($userId);
         return $targetList;
     }
 }

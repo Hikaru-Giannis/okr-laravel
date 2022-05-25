@@ -20,9 +20,35 @@ final class LoginController extends Controller
     }
 
     /**
+     * ログイン処理
+     *
      * @param LoginRequest $request
      * @return JsonResponse
      * @throws AuthenticationException
+     *
+     * @OA\POST(
+     *   path="/login",
+     *   summary="ログイン処理",
+     *   @OA\Response(
+     *     response=200,
+     *     description="OK",
+     *     @OA\JsonContent(
+     *       type="object",
+     *       @OA\Property(
+     *         property="status",
+     *         type="int",
+     *         description="レスポンスステータス",
+     *         example=200
+     *       ),
+     *       @OA\Property(
+     *         property="message",
+     *         type="string",
+     *         description="レスポンスメッセージ",
+     *         example="Authenticated."
+     *       )
+     *     )
+     *   )
+     * )
      */
     public function __invoke(LoginRequest $request): JsonResponse
     {

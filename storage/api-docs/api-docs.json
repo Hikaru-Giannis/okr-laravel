@@ -17,9 +17,35 @@
                 "summary": "ログイン処理",
                 "description": "ログイン処理",
                 "operationId": "a2fabed7608b6fdc9145e347f9aa4db2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "description": "メールアドレス",
+                                        "type": "string",
+                                        "example": "test@example.com"
+                                    },
+                                    "password": {
+                                        "description": "パスワード",
+                                        "type": "string",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Success Login.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -39,56 +65,17 @@
                                 }
                             }
                         }
-                    }
-                }
-            }
-        },
-        "/test": {
-            "get": {
-                "summary": "Swaggerのテスト用",
-                "operationId": "2cf1648f26e6c36635ef5a3b5321fcff",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "description": "レスポンスパラメータの例を記載",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
                     },
-                    "400": {
-                        "description": "Bad Request",
+                    "401": {
+                        "description": "Failure Login.",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
-                                            "description": "レスポンスパラメータの例を記載",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "description": "レスポンスパラメータの例を記載",
-                                            "type": "string"
+                                            "description": "レスポンスメッセージ",
+                                            "type": "string",
+                                            "example": "Unauthenticated."
                                         }
                                     },
                                     "type": "object"

@@ -29,9 +29,28 @@ final class LoginController extends Controller
      * @OA\POST(
      *   path="/login",
      *   summary="ログイン処理",
+     *   @OA\RequestBody(
+     *      required=true,
+     *      @OA\JsonContent(
+     *        type="object",
+     *        required={"email", "password"},
+     *        @OA\Property(
+     *            property="email",
+     *            type="string",
+     *            example="test@example.com",
+     *            description="メールアドレス"
+     *        ),
+     *        @OA\Property(
+     *            property="password",
+     *            type="string",
+     *            example="password",
+     *            description="パスワード"
+     *        )
+     *      )
+     *   ),
      *   @OA\Response(
      *     response=200,
-     *     description="OK",
+     *     description="Success Login.",
      *     @OA\JsonContent(
      *       type="object",
      *       @OA\Property(
@@ -45,6 +64,19 @@ final class LoginController extends Controller
      *         type="string",
      *         description="レスポンスメッセージ",
      *         example="Authenticated."
+     *       )
+     *     )
+     *   ),
+     *   @OA\Response(
+     *     response=401,
+     *     description="Failure Login.",
+     *     @OA\JsonContent(
+     *       type="object",
+     *       @OA\Property(
+     *         property="message",
+     *         type="string",
+     *         description="レスポンスメッセージ",
+     *         example="Unauthenticated."
      *       )
      *     )
      *   )

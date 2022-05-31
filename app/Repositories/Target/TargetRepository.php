@@ -3,12 +3,38 @@ declare(strict_types=1);
 
 namespace App\Repositories\Target;
 
+use App\Entities\Target\TargetEntity;
 use App\Entities\Target\TargetListEntitity;
 use App\Models\Target;
 
 class TargetRepository
 {
-    public function retrieveByUserId(int $user_id)
+    /**
+     * 目標IDから取得
+     *
+     * @param integer $targetId
+     * @return TargetEntity
+     */
+    public function retrieveByTargetId(int $targetId): TargetEntity
+    {
+        $target = Target::find($targetId);
+        $indicators = $target->indicators;
+        $indicatorListEntity = $indicators->map(function ($indicator) {
+            return $indicator->toEntity();
+        });
+        $targetEntity = $target->toEntity();
+        $targetEntity->setIndicators($indicatorListEntity->toArray());
+
+        return $targetEntity;
+    }
+
+    /**
+     * ユーザーIDから取得
+     *
+     * @param integer $user_id
+     * @return TargetListEntitity
+     */
+    public function retrieveByUserId(int $user_id): TargetListEntitity
     {
         $targets = Target::query()
             ->where('user_id', $user_id)

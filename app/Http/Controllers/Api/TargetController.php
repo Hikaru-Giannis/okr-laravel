@@ -6,10 +6,13 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Target\IndexRequest;
 use App\Http\Requests\Target\RegisterRequest;
+use App\Http\Requests\Target\ShowRequest;
 use App\UseCases\Target\IndexAction;
+use App\UseCases\Target\TargetShowAction;
 use App\UseCases\Target\TargetStoreAction;
 use App\UseCases\Indicator\IndicatorsStoreAction;
 use App\Http\Resources\Target\IndexResource;
+use App\Http\Resources\Target\ShowResource;
 use Illuminate\Http\JsonResponse;
 
 class TargetController extends Controller
@@ -26,6 +29,33 @@ class TargetController extends Controller
         $user = $request->user;
         $targetList = $action($user->id);
         return new IndexResource($targetList->getValue());
+    }
+
+    /**
+     * 目標詳細情報を取得
+     *
+     * @param ShowRequest $request
+     * @param TargetShowAction $action
+     * @return JsonResponse
+     */
+    public function show(ShowRequest $request, TargetShowAction $action)
+    {
+        $user = $request->user;
+        $target = $action((int)$request->target_id);
+
+        try {
+            if ($user->id !== $target->user_id()) {
+                throw new \Exception('ERROR: Not equals user_id.');
+            }
+
+            return new ShowResource($target);
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            return new JsonResponse([
+                'status' => 400,
+                'message' => 'ERROR: Bad request.'
+            ]);
+        }
     }
 
     /**

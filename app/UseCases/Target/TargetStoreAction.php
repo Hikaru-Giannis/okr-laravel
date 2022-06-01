@@ -13,10 +13,12 @@ class TargetStoreAction
 
     public function __invoke(int $userId, string $contents, string $expirationDate)
     {
+        $expirationDateTime = new \Datetime($expirationDate);
+
         return $this->targetRepository->save(
             userId: $userId,
             contents: $contents,
-            expirationDate: $expirationDate
+            expirationDate: $expirationDateTime->format('Y-m-d 23:59:59')
         );
     }
 }

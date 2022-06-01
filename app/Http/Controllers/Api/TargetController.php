@@ -11,10 +11,11 @@ use App\Http\Requests\Target\ShowRequest;
 use App\UseCases\Target\IndexAction;
 use App\UseCases\Target\TargetShowAction;
 use App\UseCases\Target\TargetStoreAction;
-use App\UseCases\Indicator\IndicatorsScoreAction;
 use App\UseCases\Indicator\IndicatorsStoreAction;
+use App\UseCases\Indicator\ScoreAction;
 use App\Http\Resources\Target\IndexResource;
 use App\Http\Resources\Target\ShowResource;
+use App\UseCases\Target\TotalScoreStoreAction;
 use Illuminate\Http\JsonResponse;
 
 class TargetController extends Controller
@@ -84,12 +85,18 @@ class TargetController extends Controller
      * 目標の採点処理
      *
      * @param ScoreRequest $request
-     * @param IndicatorsScoreAction $action
+     * @param ScoreAction $scoreAction
+     * @param TotalScoreStoreAction $totalScoreAction
      * @return void
      */
-    public function score(ScoreRequest $request, IndicatorsScoreAction $action)
-    {
-        $action($request->indicators);
+    public function score(
+        ScoreRequest $request,
+        ScoreAction $scoreAction,
+        TotalScoreStoreAction $totalScoreAction
+    ): JsonResponse {
+        // TODO トランザクション処理が必要
+        $scoreAction($request->indicators);
+        $totalScoreAction($request->target_id, $request->indicators);
         return new JsonResponse(['status' => 200]);
     }
 }

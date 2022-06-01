@@ -5,7 +5,7 @@ namespace App\UseCases\Indicator;
 
 use App\Repositories\Indicator\IndicatorRepository;
 
-class IndicatorsScoreAction
+class ScoreAction
 {
     public function __construct(private IndicatorRepository $indicatorRepository)
     {

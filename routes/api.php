@@ -23,6 +23,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/', [TargetController::class, 'show'])->name('show');
         Route::get('index', [TargetController::class, 'index'])->name('index');
         Route::post('/', [TargetController::class, 'register'])->name('register');
+        Route::post('/score', [TargetController::class, 'score'])->name('score');
     });
 });
 

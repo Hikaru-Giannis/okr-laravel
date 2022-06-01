@@ -8,7 +8,7 @@ use App\Models\Indicator;
 class IndicatorRepository
 {
     /**
-     * 成果目標登録
+     * 成果目標を登録
      *
      * @param integer $targetId
      * @param string $contents
@@ -21,5 +21,19 @@ class IndicatorRepository
         $indicator->contents = $contents;
         $indicator->save();
         return $indicator->id;
+    }
+
+    /**
+     * 成果目標を採点
+     *
+     * @param integer $indicatorId
+     * @param float $score
+     * @return void
+     */
+    public function score(int $indicatorId, float $score): void
+    {
+        $indicator = Indicator::find($indicatorId);
+        $indicator->score = $score;
+        $indicator->save();
     }
 }

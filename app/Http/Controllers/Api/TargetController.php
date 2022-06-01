@@ -6,10 +6,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Target\IndexRequest;
 use App\Http\Requests\Target\RegisterRequest;
+use App\Http\Requests\Target\ScoreRequest;
 use App\Http\Requests\Target\ShowRequest;
 use App\UseCases\Target\IndexAction;
 use App\UseCases\Target\TargetShowAction;
 use App\UseCases\Target\TargetStoreAction;
+use App\UseCases\Indicator\IndicatorsScoreAction;
 use App\UseCases\Indicator\IndicatorsStoreAction;
 use App\Http\Resources\Target\IndexResource;
 use App\Http\Resources\Target\ShowResource;
@@ -66,11 +68,28 @@ class TargetController extends Controller
      * @param IndicatorsStoreAction $indicatorsAction
      * @return JsonResponse
      */
-    public function register(RegisterRequest $request, TargetStoreAction $targetAction, IndicatorsStoreAction $indicatorsAction): JsonResponse
-    {
+    public function register(
+        RegisterRequest $request,
+        TargetStoreAction $targetAction,
+        IndicatorsStoreAction $indicatorsAction
+    ): JsonResponse {
+        // TODO 例外処理を考慮
         $user = $request->user;
         $targetId = $targetAction($user->id, $request->target['contents'], $request->target['expiration_date']);
         $indicatorsAction($targetId, $request->indicators);
+        return new JsonResponse(['status' => 200]);
+    }
+
+    /**
+     * 目標の採点処理
+     *
+     * @param ScoreRequest $request
+     * @param IndicatorsScoreAction $action
+     * @return void
+     */
+    public function score(ScoreRequest $request, IndicatorsScoreAction $action)
+    {
+        $action($request->indicators);
         return new JsonResponse(['status' => 200]);
     }
 }

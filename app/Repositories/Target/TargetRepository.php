@@ -3,12 +3,38 @@ declare(strict_types=1);
 
 namespace App\Repositories\Target;
 
+use App\Entities\Target\TargetEntity;
 use App\Entities\Target\TargetListEntitity;
 use App\Models\Target;
 
 class TargetRepository
 {
-    public function retrieveByUserId(int $user_id)
+    /**
+     * 目標IDから取得
+     *
+     * @param integer $targetId
+     * @return TargetEntity
+     */
+    public function retrieveByTargetId(int $targetId): TargetEntity
+    {
+        $target = Target::find($targetId);
+        $indicators = $target->indicators;
+        $indicatorListEntity = $indicators->map(function ($indicator) {
+            return $indicator->toEntity();
+        });
+        $targetEntity = $target->toEntity();
+        $targetEntity->setIndicators($indicatorListEntity->toArray());
+
+        return $targetEntity;
+    }
+
+    /**
+     * ユーザーIDから取得
+     *
+     * @param integer $user_id
+     * @return TargetListEntitity
+     */
+    public function retrieveByUserId(int $user_id): TargetListEntitity
     {
         $targets = Target::query()
             ->where('user_id', $user_id)
@@ -38,12 +64,25 @@ class TargetRepository
      */
     public function save(int $userId, string $contents, string $expirationDate): int
     {
-        $expirationDateTime = new \Datetime($expirationDate);
         $target = new Target;
         $target->user_id = $userId;
         $target->contents = $contents;
-        $target->expiration_date = $expirationDateTime->format('Y-m-d 23:59:59');
+        $target->expiration_date = $expirationDate;
         $target->save();
         return $target->id;
+    }
+
+    /**
+     * 合計スコアを保存
+     *
+     * @param integer $targetId
+     * @param float $totalScore
+     * @return void
+     */
+    public function saveTotalScore(int $targetId, float $totalScore): void
+    {
+        $target = Target::find($targetId);
+        $target->total_score = $totalScore;
+        $target->save();
     }
 }

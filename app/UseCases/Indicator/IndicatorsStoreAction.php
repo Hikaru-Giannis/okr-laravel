@@ -11,7 +11,7 @@ class IndicatorsStoreAction
     {
     }
 
-    public function __invoke(int $targetId, array $indicators) :void
+    public function __invoke(int $targetId, array $indicators): void
     {
         foreach ($indicators as $contents) {
             $this->indicatorRepository->save(

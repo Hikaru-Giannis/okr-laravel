@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Target\EvaluateRequest;
 use App\Http\Requests\Target\IndexRequest;
 use App\Http\Requests\Target\RegisterRequest;
 use App\Http\Requests\Target\ScoreRequest;
@@ -15,6 +16,7 @@ use App\UseCases\Indicator\IndicatorsStoreAction;
 use App\UseCases\Indicator\ScoreAction;
 use App\Http\Resources\Target\IndexResource;
 use App\Http\Resources\Target\ShowResource;
+use App\UseCases\Target\CompleteEvaluateAction;
 use App\UseCases\Target\TotalScoreStoreAction;
 use Illuminate\Http\JsonResponse;
 
@@ -97,6 +99,25 @@ class TargetController extends Controller
         // TODO トランザクション処理が必要
         $scoreAction($request->indicators);
         $totalScoreAction($request->target_id, $request->indicators);
+        return new JsonResponse(['status' => 200]);
+    }
+
+    /**
+     * 評価完了処理
+     *
+     * @param EvaluateRequest $request
+     * @param ScoreAction $scoreAction
+     * @param CompleteEvaluateAction $completeEvaluateAction
+     * @return JsonResponse
+     */
+    public function completeEvaluate(
+        EvaluateRequest $request,
+        ScoreAction $scoreAction,
+        CompleteEvaluateAction $completeEvaluateAction
+    ): JsonResponse {
+        // TODO トランザクション処理が必要
+        $scoreAction($request->indicators);
+        $completeEvaluateAction($request->target_id, $request->indicators);
         return new JsonResponse(['status' => 200]);
     }
 }

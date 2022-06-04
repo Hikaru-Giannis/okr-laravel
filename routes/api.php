@@ -24,6 +24,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('index', [TargetController::class, 'index'])->name('index');
         Route::post('/', [TargetController::class, 'register'])->name('register');
         Route::post('/score', [TargetController::class, 'score'])->name('score');
+        Route::post('/complete', [TargetController::class, 'completeEvaluate'])->name('complete');
     });
 });
 

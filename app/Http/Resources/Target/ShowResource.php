@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Target;
 
-use App\Consts\Target;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ShowResource extends JsonResource
@@ -27,7 +26,7 @@ class ShowResource extends JsonResource
             'id' => $this->resource->id(),
             'user_id' => $this->resource->user_id(),
             'contents' => $this->resource->contents(),
-            'status' => Target::STATUS_VALUE_LIST[$this->resource->status()],
+            'status' => $this->resource->status(),
             'total_score' => $this->resource->total_score(),
             'expiration_date' => $this->resource->expiration_date(),
             'indicators' => $indicators,

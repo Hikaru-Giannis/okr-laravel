@@ -19,6 +19,7 @@ use App\Http\Resources\Target\ShowResource;
 use App\UseCases\Target\CompleteEvaluateAction;
 use App\UseCases\Target\TotalScoreStoreAction;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 
 class TargetController extends Controller
 {
@@ -96,10 +97,18 @@ class TargetController extends Controller
         ScoreAction $scoreAction,
         TotalScoreStoreAction $totalScoreAction
     ): JsonResponse {
-        // TODO トランザクション処理が必要
-        $scoreAction($request->indicators);
-        $totalScoreAction($request->target_id, $request->indicators);
-        return new JsonResponse(['status' => 200]);
+
+        DB::beginTransaction();
+        try {
+            $scoreAction($request->indicators);
+            $totalScoreAction($request->target_id, $request->indicators);
+            DB::commit();
+            return new JsonResponse(['status' => 200]);
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            DB::rollBack();
+            return new JsonResponse(['status' => 400], 400);
+        }
     }
 
     /**
@@ -115,9 +124,17 @@ class TargetController extends Controller
         ScoreAction $scoreAction,
         CompleteEvaluateAction $completeEvaluateAction
     ): JsonResponse {
-        // TODO トランザクション処理が必要
-        $scoreAction($request->indicators);
-        $completeEvaluateAction($request->target_id, $request->indicators);
-        return new JsonResponse(['status' => 200]);
+
+        DB::beginTransaction();
+        try {
+            $scoreAction($request->indicators);
+            $completeEvaluateAction($request->target_id, $request->indicators);
+            DB::commit();
+            return new JsonResponse(['status' => 200]);
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            DB::rollBack();
+            return new JsonResponse(['status' => 400], 400);
+        }
     }
 }

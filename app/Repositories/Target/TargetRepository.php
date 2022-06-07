@@ -6,6 +6,7 @@ namespace App\Repositories\Target;
 use App\Entities\Target\TargetEntity;
 use App\Entities\Target\TargetListEntitity;
 use App\Models\Target;
+use App\Consts\Target as ConstsTarget;
 
 class TargetRepository
 {
@@ -83,6 +84,21 @@ class TargetRepository
     {
         $target = Target::find($targetId);
         $target->total_score = $totalScore;
+        $target->save();
+    }
+
+    /**
+     * 評価を完了
+     *
+     * @param integer $targetId
+     * @param float $totalScore
+     * @return void
+     */
+    public function completeEvaluate(int $targetId, float $totalScore): void
+    {
+        $target = Target::find($targetId);
+        $target->total_score = $totalScore;
+        $target->status = ConstsTarget::STATUS_COMPLETION;
         $target->save();
     }
 }

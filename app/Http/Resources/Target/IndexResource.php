@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Target;
 
-use App\Consts\Target;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class IndexResource extends JsonResource
@@ -30,7 +29,7 @@ class IndexResource extends JsonResource
                 'id' => $target->id(),
                 'user_id' => $target->user_id(),
                 'contents' => $target->contents(),
-                'status' => Target::STATUS_VALUE_LIST[$target->status()],
+                'status' => $target->status(),
                 'total_score' => $target->total_score(),
                 'expiration_date' => $target->expiration_date(),
                 'indicators' => $indicators,
